@@ -1,0 +1,16 @@
+# Base de donnees de developpement (port 3307 pour ne pas gener un autre MySQL)
+services:
+  mysql:
+    image: mysql:8
+    container_name: pointage-mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?definir MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: pointage_pad
+    volumes:
+      - pointage-mysql-data:/var/lib/mysql
+volumes:
+  pointage-mysql-data:
+    external: true

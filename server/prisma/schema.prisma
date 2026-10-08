@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  ADMIN
+  TECH
+}
+
+enum NotifType {
+  ARRIVEE
+  DEPART
+  REFUS
+  ENROLEMENT
+  REGULARISATION
+}
+
+model User {
+  id             Int            @id @default(autoincrement())
+  matricule      String         @unique
+  nom            String
+  service        String?
+  passwordHash   String
+  role           Role           @default(EMPLOYEE)
+  actif          Boolean        @default(true)
+  doitChangerMdp Boolean        @default(true)
+  challenge      String?        @db.Text
+  createdAt      DateTime       @default(now())
+  credentials    Credential[]
+  pointages      Pointage[]
+  notifications  Notification[]
+  journal        Journal[]      @relation("auteur")
+}
+
+model Credential {
+  id        String   @id @db.VarChar(512)
+  publicKey Bytes
+  counter   Int
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Pointage {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  jour          DateTime  @db.Date
+  arrivee       DateTime
+  depart        DateTime?
+  // Régularisation par un administrateur (EF-11)
+  regularise    Boolean   @default(false)
+  motif         String?   @db.Text
+  regularisePar Int?
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jour])
+  @@index([jour])
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  type      NotifType
+  message   String
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+}
+
+// Réglages modifiables sans développeur (EF-15) ; le .env fournit les valeurs initiales
+model Parametre {
+  cle       String   @id @db.VarChar(64)
+  valeur    String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+// Trace des opérations sensibles des administrateurs
+model Journal {
+  id        Int      @id @default(autoincrement())
+  auteurId  Int
+  action    String
+  detail    String   @db.Text
+  createdAt DateTime @default(now())
+  auteur    User     @relation("auteur", fields: [auteurId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+}

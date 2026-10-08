@@ -1,0 +1,23 @@
+{
+  "world": "titre sécurisé : impression fiduciaire des documents officiels",
+  "seed": "dcffe6d8",
+  "colors": {
+    "marine": "#0A4DA2", "marineFonce": "#073574", "marineNuit": "#0B1F3A",
+    "marineClair": "#E8EEF8", "marineFilet": "#C9D6EA", "ciel": "#4FA9DE",
+    "citron": "#C5E91B", "citronPale": "#F1F9CC", "citronEncre": "#3F4B05",
+    "soleil": "#FFC93C", "soleilPale": "#FFF3D1", "soleilEncre": "#5C4300",
+    "refus": "#B42318", "refusPale": "#FDECEA",
+    "encre": "#14223A", "encreDouce": "#4A5873", "encrePale": "#6B7891",
+    "papier": "#FBFCFE", "bureau": "#EDF1F7"
+  },
+  "gradients": { "iris": "linear-gradient(90deg, #0A4DA2 0%, #0A4DA2 22%, #4FA9DE 46%, #C5E91B 72%, #FFC93C 100%)" },
+  "typography": {
+    "text": { "family": "Archivo Variable", "numerals": "tabular" },
+    "display": { "family": "Archivo Variable", "stretch": "125%", "case": "uppercase", "weight": 800 },
+    "data": { "family": "Azeret Mono Variable" },
+    "label": { "size": "10.5px", "weight": 600, "case": "uppercase", "tracking": "0.14em", "stretch": "112%" }
+  },
+  "radius": { "control": "4px", "sheet": "6px", "titre": "8px" },
+  "shadow": { "titre": "0 1px 2px rgba(11,31,58,0.08), 0 18px 40px -24px rgba(11,31,58,0.45)" },
+  "motion": { "ease": "cubic-bezier(0.16, 1, 0.3, 1)", "trace": "1400ms", "sceau": "520ms", "impression": "600ms" }
+}

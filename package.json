@@ -1,0 +1,6 @@
+{
+  "name": "pointage-pad",
+  "private": true,
+  "description": "Registre de présence du Port Autonome de Douala (client React + API Express)",
+  "engines": { "node": ">=20" }
+}

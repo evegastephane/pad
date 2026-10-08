@@ -16,7 +16,12 @@ type Filtres = { du?: string; au?: string; service?: string; agent?: string };
 const BLEU = '#0A4DA2';
 const CITRON = '#C5E91B';
 const JAUNE = '#FFC93C';
-const LOGO = path.join(__dirname, '..', '..', 'assets', 'logo-pad.png');
+// Le logo est cherché à côté du code compilé, puis depuis la racine du serveur ou du dépôt (Vercel)
+const LOGO = [
+  path.join(__dirname, '..', '..', 'assets', 'logo-pad.png'),
+  path.join(process.cwd(), 'assets', 'logo-pad.png'),
+  path.join(process.cwd(), 'server', 'assets', 'logo-pad.png'),
+].find((p) => fs.existsSync(p));
 const dateFr = (s?: string) => (s ? new Date(s).toLocaleDateString('fr-FR', { timeZone: 'UTC' }) : null);
 
 // Relevé des présences imprimable (EF-19), mêmes données que le tableau
@@ -24,7 +29,7 @@ export function relevePdf(out: NodeJS.WritableStream, rows: Ligne[], f: Filtres)
   const doc = new PDFDocument({ size: 'A4', margin: 40, bufferPages: true, info: { Title: 'Relevé des présences', Author: 'Port Autonome de Douala' } });
   doc.pipe(out);
 
-  if (fs.existsSync(LOGO)) doc.image(LOGO, 40, 34, { width: 58 });
+  if (LOGO) doc.image(LOGO, 40, 34, { width: 58 });
   doc.fillColor(BLEU).font('Helvetica-Bold').fontSize(15).text('PORT AUTONOME DE DOUALA', 110, 42);
   doc.fillColor('#333').font('Helvetica').fontSize(9).text('Port Authority of Douala', 110, 60);
   doc.fillColor(BLEU).font('Helvetica-Bold').fontSize(12).text('Relevé des présences', 110, 76);

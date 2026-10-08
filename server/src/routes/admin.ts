@@ -175,7 +175,7 @@ adminRoutes.delete('/admin/users/:id/credentials', admin, wrap(async (req, res) 
 const tech = auth(['TECH', 'ADMIN']);
 
 adminRoutes.get('/admin/parametres', tech, wrap(async (req, res) =>
-  res.json({ ...(await lireZone()), monIp: ipClient(req.ip) })));
+  res.json({ ...(await lireZone()), monIp: ipClient(req) })));
 
 adminRoutes.put('/admin/parametres', tech, wrap(async (req, res) => {
   const ips = String(req.body.ALLOWED_IPS ?? '').split(/[\s,]+/).filter(Boolean);

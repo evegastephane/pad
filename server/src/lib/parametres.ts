@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { prisma } from './db';
 import { config } from './config';
 
@@ -32,7 +33,11 @@ const distance = (a1: number, o1: number, a2: number, o2: number) => {
   return 2 * 6371000 * Math.asin(Math.sqrt(h));
 };
 
-export const ipClient = (ip?: string) => (ip || '').replace('::ffff:', '');
+// Adresse IP du client : en-tête de la plateforme (Vercel) ou adresse vue par Express (Nginx, accès direct)
+export const ipClient = (req: Request) => {
+  const brute = config.ipHeader ? String(req.headers[config.ipHeader] ?? '').split(',')[0].trim() : req.ip;
+  return (brute || '').replace('::ffff:', '');
+};
 
 // Retourne un message de refus, ou null si la personne est bien dans la zone.
 // La position n'est jamais enregistrée (cahier des charges, §7).

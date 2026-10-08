@@ -65,3 +65,4 @@ Connexion administrateur : matricule `ADMIN`, mot de passe défini par `ADMIN_PA
 - [Guide de l'agent](docs/guide-agent.md)
 - [Guide de l'administrateur](docs/guide-administrateur.md)
 - [Documentation technique et mise en production](docs/technique.md)
+- [Déploiement sur Vercel (test et pilote)](docs/vercel.md)

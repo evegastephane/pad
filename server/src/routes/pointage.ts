@@ -25,7 +25,7 @@ pointageRoutes.post('/pointage', auth(), wrap(async (req, res) => {
   const { assertion, lat, lng } = req.body;
   const u = await prisma.user.findUniqueOrThrow({ where: { id: uid(req) }, include: { credentials: true } });
 
-  const refus = await verifierZone(ipClient(req.ip), lat, lng);
+  const refus = await verifierZone(ipClient(req), lat, lng);
   if (refus) {
     await notifier(u.id, 'REFUS', `${u.nom} : pointage refusé (${refus})`);
     return res.status(403).json({ error: refus });
